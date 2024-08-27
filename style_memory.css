@@ -9,7 +9,7 @@ body {
     height: 100vh;
 }
 
-.container {
+.memory-container {
     text-align: center;
     max-width: 800px;
     margin: 20px;
@@ -23,7 +23,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-.controls {
+.memory-controls {
     margin-bottom: 20px;
 }
 
@@ -50,14 +50,14 @@ button:hover {
     background-color: #0056b3;
 }
 
-.game-board {
+.memory-game-board {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin: 20px 0;
 }
 
-.card {
+.memory-card {
     width: 100px;
     height: 100px;
     margin: 5px;
@@ -71,20 +71,26 @@ button:hover {
     cursor: pointer;
 }
 
-.card.matched {
+.memory-card.matched {
     background-color: #28a745;
     cursor: default;
 }
 
-#rankings {
+#memory-rankings {
     margin-top: 20px;
 }
 
-#rankings-list {
+#memory-rankings-list {
     list-style: none;
     padding: 0;
 }
 
-#rankings-list li {
+#memory-rankings-list li {
     padding: 5px 0;
+}
+
+#win-message {
+    font-size: 24px;
+    color: green;
+    margin-top: 20px;
 }

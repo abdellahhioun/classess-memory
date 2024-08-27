@@ -1,8 +1,7 @@
 <?php
-// get_rankings.php
-require_once 'Game.php';
+require_once 'MemoryGame.php';
 
-$game = new Game(0); // Initialize game without pairs count
+$game = new MemoryGame(0); // Initialize game without pairs count
 $rankings = $game->getTopScores();
 
 header('Content-Type: application/json');

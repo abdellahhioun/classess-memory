@@ -1,5 +1,5 @@
 <?php
-class Card {
+class CardMemory {
     private $id;
     private $value;
     private $isMatched;
