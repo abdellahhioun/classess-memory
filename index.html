@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Memory Game</h1>
+        <div class="controls">
+            <form id="start-game-form" method="POST" action="start_game.php">
+                <label for="pairs">Select number of pairs (3 to 12):</label>
+                <input type="number" id="pairs" name="pairs" min="3" max="12" required>
+                <button type="submit">Start Game</button>
+            </form>
+        </div>
+        <div id="rankings">
+            <h2>Top 10 Scores</h2>
+            <ul id="rankings-list">
+                <!-- Rankings will be dynamically populated here -->
+            </ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
