@@ -1,58 +1,94 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f0f0f0;
+    background-color: #f4f4f4;
     margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
     padding: 20px;
 }
 
 h1 {
-    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="text"], select {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
 }
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 100px);
-    grid-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 20px 0;
 }
 
 .card {
-    width: 100px;
-    height: 150px;
-    background-color: #007bff;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    width: 100%;
+    padding-top: 100%; /* Makes the card square */
     position: relative;
     perspective: 1000px;
+    cursor: pointer;
 }
 
-.card .card-front,
-.card .card-back {
+.card-front, .card-back {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    border: 2px solid #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    font-size: 24px;
+    transition: transform 0.5s ease;
 }
 
-.card .card-back {
-    background-color: #fff;
-    color: #007bff;
+.card-front {
+    background-color: #f4f4f4;
+}
+
+.card-back {
+    background-color: #333;
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 48px;
+}
+
+.card.flip .card-front {
     transform: rotateY(180deg);
 }
 
-.card.flipped .card-front {
-    transform: rotateY(180deg);
-}
-
-.card.flipped .card-back {
+.card.flip .card-back {
     transform: rotateY(0deg);
 }

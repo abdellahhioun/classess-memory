@@ -1,13 +1,7 @@
 <?php
-require_once 'MemoryGame.php';
-
-$pairsCount = 6; // Default to 6 pairs (12 cards)
-if (isset($_GET['pairs'])) {
-    $pairsCount = max(3, min(12, intval($_GET['pairs']))); // Ensure the number is between 3 and 12
-}
-
-$game = new MemoryGame($pairsCount);
-$cards = $game->getCards();
+require 'db_connection.php';
+require 'Player.php';
+require 'GameSession.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,51 +13,28 @@ $cards = $game->getCards();
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Memory Game</h1>
-    <div class="game-board">
-        <?php foreach ($cards as $index => $card): ?>
-            <div class="card" data-id="<?= $card->id ?>" data-index="<?= $index ?>">
-                <div class="card-front">?</div>
-                <div class="card-back"><?= $card->value ?></div>
-            </div>
-        <?php endforeach; ?>
+    <div class="container">
+        <h1>Welcome to the Memory Game</h1>
+        <form action="game.php" method="post">
+            <label for="player_name">Enter Your Name:</label>
+            <input type="text" id="player_name" name="player_name" required>
+            
+            <label for="pairs">Select Number of Pairs:</label>
+            <select id="pairs" name="pairs">
+                <option value="3">3 Pairs</option>
+                <option value="4">4 Pairs</option>
+                <option value="5">5 Pairs</option>
+                <option value="6">6 Pairs</option>
+                <option value="7">7 Pairs</option>
+                <option value="8">8 Pairs</option>
+                <option value="9">9 Pairs</option>
+                <option value="10">10 Pairs</option>
+                <option value="11">11 Pairs</option>
+                <option value="12">12 Pairs</option>
+            </select>
+
+            <button type="submit">Start Game</button>
+        </form>
     </div>
-
-    <script>
-        let flippedCards = [];
-        let matchedPairs = 0;
-        const totalPairs = <?php echo $pairsCount; ?>;
-
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
-                    card.classList.add('flipped');
-                    flippedCards.push(card);
-
-                    if (flippedCards.length === 2) {
-                        setTimeout(checkForMatch, 1000);
-                    }
-                }
-            });
-        });
-
-        function checkForMatch() {
-            const [card1, card2] = flippedCards;
-
-            if (card1.dataset.id === card2.dataset.id) {
-                matchedPairs++;
-                if (matchedPairs === totalPairs) {
-                    setTimeout(() => {
-                        alert('You Won!');
-                    }, 500);
-                }
-            } else {
-                card1.classList.remove('flipped');
-                card2.classList.remove('flipped');
-            }
-
-            flippedCards = [];
-        }
-    </script>
 </body>
 </html>
