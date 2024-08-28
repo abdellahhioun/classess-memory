@@ -46,7 +46,7 @@ button:hover {
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Adjust based on number of pairs */
     gap: 10px;
     margin: 20px 0;
 }
@@ -86,9 +86,23 @@ button:hover {
 }
 
 .card.flip .card-front {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); /* Front side flips to show back */
 }
 
 .card.flip .card-back {
-    transform: rotateY(0deg);
+    transform: rotateY(0deg); /* Back side shows */
+}
+
+/* CSS for matched cards */
+.card.matched {
+    background-color: red; /* Set background color to red for matched cards */
+}
+
+.card.matched .card-front {
+    background-color: red; /* Front side stays red */
+}
+
+.card.matched .card-back {
+    background-color: red; /* Ensure the back is also red */
+    transform: rotateY(180deg); /* Keep back hidden */
 }

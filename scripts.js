@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function disableCards() {
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+
         firstCard.removeEventListener('click', flipCard);
         secondCard.removeEventListener('click', flipCard);
 
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             secondCard.classList.remove('flip');
 
             resetBoard();
-        }, 1500);
+        }, 1200); // Adjust this delay if needed
     }
 
     function resetBoard() {
