@@ -23,20 +23,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-.memory-controls {
-    margin-bottom: 20px;
-}
-
-label {
-    margin-right: 10px;
-}
-
-input[type="number"] {
-    padding: 5px;
-    width: 60px;
-    text-align: center;
-}
-
 button {
     padding: 10px 20px;
     background-color: #007bff;
@@ -51,46 +37,34 @@ button:hover {
 }
 
 .memory-game-board {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
     margin: 20px 0;
 }
 
 .memory-card {
-    width: 100px;
-    height: 100px;
-    margin: 5px;
+    padding-top: 100%;
+    position: relative;
     background-color: #007bff;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    font-size: 24px;
+    text-align: center;
     border-radius: 5px;
     cursor: pointer;
 }
 
+.memory-card.flipped,
 .memory-card.matched {
     background-color: #28a745;
+    color: #fff;
     cursor: default;
 }
 
-#memory-rankings {
-    margin-top: 20px;
-}
-
-#memory-rankings-list {
-    list-style: none;
-    padding: 0;
-}
-
-#memory-rankings-list li {
-    padding: 5px 0;
-}
-
-#win-message {
-    font-size: 24px;
-    color: green;
-    margin-top: 20px;
+.memory-card i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
 }

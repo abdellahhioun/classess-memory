@@ -6,14 +6,15 @@ class GameSession {
     private $flippedIndices = [];
 
     public function __construct($mysqli, $numPairs) {
-        $this->selectAndShuffleCards($mysqli, $numPairs);
+        $this->selectAndShuffleCards($numPairs);
     }
 
-    private function selectAndShuffleCards($mysqli, $numPairs) {
+    private function selectAndShuffleCards($numPairs) {
+        // Codicon icon classes
         $icons = [
-            "fa-heart", "fa-star", "fa-moon", "fa-sun", 
-            "fa-bell", "fa-car", "fa-apple", "fa-leaf",
-            "fa-music", "fa-plane", "fa-tree", "fa-umbrella"
+            "codicon-heart", "codicon-star", "codicon-check", "codicon-flame", 
+            "codicon-git-pull-request", "codicon-git-merge", "codicon-paintcan", "codicon-github-alt",
+            "codicon-mortar-board", "codicon-tools", "codicon-rocket", "codicon-beaker"
         ];
 
         $cards = [];

@@ -2,9 +2,9 @@
 class Card {
     private $id;
     private $value;
-    private $icon;
     private $flipped = false;
     private $matched = false;
+    private $icon; // Add the icon property
 
     public function __construct($id, $value, $icon) {
         $this->id = $id;
@@ -18,10 +18,6 @@ class Card {
 
     public function getValue() {
         return $this->value;
-    }
-
-    public function getIcon() {
-        return $this->icon;
     }
 
     public function isFlipped() {
@@ -38,6 +34,10 @@ class Card {
 
     public function setMatched($matched) {
         $this->matched = $matched;
+    }
+
+    public function getIcon() {
+        return $this->icon ?: ''; // Ensure it returns a string (empty string if null)
     }
 }
 ?>

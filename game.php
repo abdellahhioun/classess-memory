@@ -25,12 +25,6 @@ if (isset($_POST['restart'])) {
 
 $_SESSION['game_session'] = $gameSession;
 
-$icons = [
-    "fa-heart", "fa-star", "fa-moon", "fa-sun", 
-    "fa-bell", "fa-car", "fa-apple", "fa-leaf",
-    "fa-music", "fa-plane", "fa-tree", "fa-umbrella"
-];
-
 $cards = $gameSession->getCards();
 ?>
 
@@ -41,7 +35,7 @@ $cards = $gameSession->getCards();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Game</title>
     <link rel="stylesheet" href="style_memory.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@0.0.26/dist/codicon.css">
 </head>
 <body>
     <div class="memory-container">
@@ -52,9 +46,10 @@ $cards = $gameSession->getCards();
         <div class="memory-game-board">
             <?php foreach ($cards as $index => $card): ?>
                 <form method="POST" style="display:inline;">
-                    <button type="submit" name="flip" value="<?= $index ?>" class="memory-card <?= $card->isFlipped() ? 'flipped' : '' ?> <?= $card->isMatched() ? 'matched' : '' ?>">
-                        <?= $card->isFlipped() ? '<i class="fas ' . htmlspecialchars($card->getIcon()) . '"></i>' : '?' ?>
-                    </button>
+                <button type="submit" name="flip" value="<?= $index ?>" class="memory-card <?= $card->isFlipped() ? 'flipped' : '' ?> <?= $card->isMatched() ? 'matched' : '' ?>">
+    <?= $card->isFlipped() ? '<i class="codicon ' . htmlspecialchars($card->getIcon()) . '"></i>' : '?' ?>
+</button>
+
                 </form>
             <?php endforeach; ?>
         </div>
