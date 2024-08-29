@@ -1,105 +1,65 @@
 <?php
-require 'Card.php';
+require_once 'Card.php';
 
 class GameSession {
-    private $sessionId;
-    private $playerId;
     private $cards = [];
-    private $flips = 0;
-    private $attempts = 0;
-    private $mysqli;
-    private $currentlyFlipped = [];
+    private $flippedIndices = [];
 
-    public function __construct($playerId, $mysqli) {
-        $this->playerId = $playerId;
-        $this->mysqli = $mysqli;
-        $this->startNewSession();
+    public function __construct($mysqli, $numPairs) {
+        $this->selectAndShuffleCards($mysqli, $numPairs);
     }
 
-    private function startNewSession() {
-        $query = "INSERT INTO game_sessions (player_id) VALUES (?)";
-        $stmt = $this->mysqli->prepare($query);
-        $stmt->bind_param("i", $this->playerId);
-        $stmt->execute();
-        $this->sessionId = $stmt->insert_id;
-    }
-
-    public function selectAndShuffleCards($numPairs) {
-        $query = "SELECT * FROM cards ORDER BY RAND() LIMIT ?";
-        $stmt = $this->mysqli->prepare($query);
-        $limit = $numPairs * 2;
-        $stmt->bind_param("i", $limit);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
+    private function selectAndShuffleCards($mysqli, $numPairs) {
         $icons = [
             "fa-heart", "fa-star", "fa-moon", "fa-sun", 
             "fa-bell", "fa-car", "fa-apple", "fa-leaf",
             "fa-music", "fa-plane", "fa-tree", "fa-umbrella"
         ];
 
-        foreach ($result as $index => $row) {
-            $icon = $icons[$index % count($icons)];
-            $this->cards[] = new Card($row['id'], $row['card_value'], $icon);
+        $cards = [];
+        for ($i = 0; $i < $numPairs; $i++) {
+            $icon = $icons[$i];
+            $cards[] = new Card($i * 2, $i, $icon);
+            $cards[] = new Card($i * 2 + 1, $i, $icon);
         }
 
-        shuffle($this->cards);
-    }
-
-    public function flipCard($position) {
-        if (isset($this->cards[$position]) && count($this->currentlyFlipped) < 2) {
-            $card = $this->cards[$position];
-            if (!$card->isFlipped()) {
-                $card->setFlipped(true);
-                $this->currentlyFlipped[] = $position;
-                $this->flips++;
-
-                // Check for match if two cards are flipped
-                if (count($this->currentlyFlipped) == 2) {
-                    $this->checkMatch();
-                }
-            }
-        }
-    }
-
-    private function checkMatch() {
-        $firstPosition = $this->currentlyFlipped[0];
-        $secondPosition = $this->currentlyFlipped[1];
-        $firstCard = $this->cards[$firstPosition];
-        $secondCard = $this->cards[$secondPosition];
-
-        if ($firstCard->getValue() === $secondCard->getValue()) {
-            $firstCard->setMatched(true);
-            $secondCard->setMatched(true);
-        } else {
-            // If no match, flip the cards back after a delay
-            // Use a delay mechanism in your front-end to flip them back visually.
-            $firstCard->setFlipped(false);
-            $secondCard->setFlipped(false);
-        }
-
-        // Clear the flipped cards list for the next attempt
-        $this->currentlyFlipped = [];
-        $this->attempts++;
-    }
-
-    public function endSession($score) {
-        $query = "UPDATE game_sessions SET score = ?, flips = ?, attempts = ? WHERE id = ?";
-        $stmt = $this->mysqli->prepare($query);
-        $stmt->bind_param("iiii", $score, $this->flips, $this->attempts, $this->sessionId);
-        $stmt->execute();
+        shuffle($cards);
+        $this->cards = $cards;
     }
 
     public function getCards() {
         return $this->cards;
     }
 
-    public function getFlips() {
-        return $this->flips;
+    public function flipCard($index) {
+        if (isset($this->cards[$index]) && !in_array($index, $this->flippedIndices)) {
+            $card = $this->cards[$index];
+            $card->setFlipped(true);
+            $this->flippedIndices[] = $index;
+        }
     }
 
-    public function getAttempts() {
-        return $this->attempts;
+    public function checkMatch() {
+        if (count($this->flippedIndices) === 2) {
+            $firstIndex = $this->flippedIndices[0];
+            $secondIndex = $this->flippedIndices[1];
+            $firstCard = $this->cards[$firstIndex];
+            $secondCard = $this->cards[$secondIndex];
+
+            if ($firstCard->getValue() === $secondCard->getValue()) {
+                $firstCard->setMatched(true);
+                $secondCard->setMatched(true);
+            } else {
+                $firstCard->setFlipped(false);
+                $secondCard->setFlipped(false);
+            }
+
+            $this->flippedIndices = [];
+        }
+    }
+
+    public function getFlippedIndices() {
+        return $this->flippedIndices;
     }
 }
 ?>

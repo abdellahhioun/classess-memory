@@ -3,8 +3,8 @@ class Card {
     private $id;
     private $value;
     private $icon;
-    private $flipped = false;  // To track if the card is flipped
-    private $matched = false;  // To track if the card is matched
+    private $flipped = false;
+    private $matched = false;
 
     public function __construct($id, $value, $icon) {
         $this->id = $id;

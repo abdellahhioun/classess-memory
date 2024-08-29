@@ -16,22 +16,6 @@ h1 {
     color: #333;
 }
 
-form {
-    margin: 20px 0;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-input[type="text"], select {
-    padding: 10px;
-    width: 100%;
-    max-width: 300px;
-    margin: 10px 0 20px;
-}
-
 button {
     padding: 10px 20px;
     background-color: #333;
@@ -46,63 +30,24 @@ button:hover {
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Adjust based on number of pairs */
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin: 20px 0;
 }
 
 .card {
     width: 100%;
-    padding-top: 100%; /* Makes the card square */
+    padding-top: 100%;
     position: relative;
-    perspective: 1000px;
+    background-color: #333;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    border: 2px solid #333;
     cursor: pointer;
 }
 
-.card-front, .card-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border: 2px solid #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    transition: transform 0.5s ease;
-}
-
-.card-front {
+.card.flipped {
     background-color: #f4f4f4;
-}
-
-.card-back {
-    background-color: #333;
-    color: white;
-    transform: rotateY(180deg);
-    font-size: 48px;
-}
-
-.card.flip .card-front {
-    transform: rotateY(180deg); /* Front side flips to show back */
-}
-
-.card.flip .card-back {
-    transform: rotateY(0deg); /* Back side shows */
-}
-
-/* CSS for matched cards */
-.card.matched {
-    background-color: red; /* Set background color to red for matched cards */
-}
-
-.card.matched .card-front {
-    background-color: red; /* Front side stays red */
-}
-
-.card.matched .card-back {
-    background-color: red; /* Ensure the back is also red */
-    transform: rotateY(180deg); /* Keep back hidden */
+    color: #333;
 }
