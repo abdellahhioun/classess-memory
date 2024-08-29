@@ -5,8 +5,18 @@ require_once 'GameSession.php';
 
 session_start();
 
+// Handle restarting the game
+if (isset($_POST['restart'])) {
+    session_destroy();
+    session_start(); // Start a new session
+    $_SESSION['game_session'] = new GameSession($mysqli, 6); // Initialize with 6 pairs
+    header('Location: game.php');
+    exit;
+}
+
+// Initialize the game session if not already set
 if (!isset($_SESSION['game_session'])) {
-    $_SESSION['game_session'] = new GameSession($mysqli, 4);  // 4 pairs by default
+    $_SESSION['game_session'] = new GameSession($mysqli, 6); // 6 pairs for 12 cards
 }
 
 $gameSession = $_SESSION['game_session'];
@@ -17,12 +27,7 @@ if (isset($_POST['flip'])) {
     $gameSession->checkMatch();
 }
 
-if (isset($_POST['restart'])) {
-    session_destroy();
-    header('Location: game.php');
-    exit;
-}
-
+// Update the session variable with the latest game session state
 $_SESSION['game_session'] = $gameSession;
 
 $cards = $gameSession->getCards();
@@ -46,10 +51,9 @@ $cards = $gameSession->getCards();
         <div class="memory-game-board">
             <?php foreach ($cards as $index => $card): ?>
                 <form method="POST" style="display:inline;">
-                <button type="submit" name="flip" value="<?= $index ?>" class="memory-card <?= $card->isFlipped() ? 'flipped' : '' ?> <?= $card->isMatched() ? 'matched' : '' ?>">
-    <?= $card->isFlipped() ? '<i class="codicon ' . htmlspecialchars($card->getIcon()) . '"></i>' : '?' ?>
-</button>
-
+                    <button type="submit" name="flip" value="<?= $index ?>" class="memory-card <?= $card->isFlipped() ? 'flipped' : '' ?> <?= $card->isMatched() ? 'matched' : '' ?>">
+                        <?= $card->isFlipped() ? '<i class="codicon ' . htmlspecialchars($card->getIcon()) . '"></i>' : '?' ?>
+                    </button>
                 </form>
             <?php endforeach; ?>
         </div>

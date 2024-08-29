@@ -10,11 +10,12 @@ class GameSession {
     }
 
     private function selectAndShuffleCards($numPairs) {
-        // Codicon icon classes
+        // Updated icons array with 12 icons for 6 matches
         $icons = [
             "codicon-heart", "codicon-star", "codicon-check", "codicon-flame", 
-            "codicon-git-pull-request", "codicon-git-merge", "codicon-paintcan", "codicon-github-alt",
-            "codicon-mortar-board", "codicon-tools", "codicon-rocket", "codicon-beaker"
+            "codicon-git-pull-request", "codicon-git-merge", "codicon-paintcan", 
+            "codicon-github-alt", "codicon-mortar-board", "codicon-tools", 
+            "codicon-rocket", "codicon-beaker"
         ];
 
         $cards = [];
@@ -33,7 +34,7 @@ class GameSession {
     }
 
     public function flipCard($index) {
-        if (isset($this->cards[$index]) && !in_array($index, $this->flippedIndices)) {
+        if (isset($this->cards[$index]) && !in_array($index, $this->flippedIndices) && !$this->cards[$index]->isMatched()) {
             $card = $this->cards[$index];
             $card->setFlipped(true);
             $this->flippedIndices[] = $index;
@@ -51,10 +52,12 @@ class GameSession {
                 $firstCard->setMatched(true);
                 $secondCard->setMatched(true);
             } else {
+                // Only flip back the unmatched cards
                 $firstCard->setFlipped(false);
                 $secondCard->setFlipped(false);
             }
 
+            // Clear flipped indices after checking for matches
             $this->flippedIndices = [];
         }
     }
