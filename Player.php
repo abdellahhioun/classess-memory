@@ -46,7 +46,7 @@ class Player {
     }
 
     public static function getTopPlayers($mysqli) {
-        $query = "SELECT name, best_score FROM players ORDER BY best_score DESC LIMIT 10";
+        $query = "SELECT name, best_score FROM players ORDER BY best_score DESC LIMIT 3";
         $result = $mysqli->query($query);
         
         $topPlayers = [];
