@@ -35,6 +35,10 @@ class Player {
         return $this->id;
     }
 
+    public function getName() {
+        return $this->name;
+    }
+
     public function updateBestScore($score) {
         if ($score > $this->bestScore) {
             $this->bestScore = $score;
